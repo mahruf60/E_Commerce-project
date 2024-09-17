@@ -56,6 +56,8 @@ class Product(models.Model):
     image= models.ImageField(upload_to='ProductImage')
     regular_price=models.PositiveIntegerField()
     discount_price=models.PositiveIntegerField(blank=True,null=True)
+    descriptions=models.TextField(null=True)
+    additional_descriptions=models.TextField(blank=True,null=True)
     stock=models.PositiveIntegerField()
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
     brand=models.ForeignKey(Brand,on_delete=models.CASCADE)

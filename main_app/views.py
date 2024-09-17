@@ -4,9 +4,11 @@ from main_app.models import *
 # Create your views here.
 def index(request):
     banner= Banner.objects.all()
+    product=Product.objects.all()
     
     context={
-        'banner':banner
+        'banner':banner,
+        'product':product,
     }
     return render(request,'index.html',context)
 
