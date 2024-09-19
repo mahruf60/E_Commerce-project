@@ -241,7 +241,7 @@
                     <div class="product product-2">
                         <figure class="product-media">
                             <span class="product-label label-circle label-top">Top</span>
-                            <a href="product.html">
+                            <a href="{% url 'product_detail' x.pk %}">
                                 <img src="{{ x.image.url}}" alt="Product image" class="product-image">
                             </a>
 

@@ -11,8 +11,8 @@ class ContactInfo(models.Model):
 
     class Meta:
         verbose_name_plural=("ContactInfos")
-        def __str__(self):
-            return self.Name
+    def __str__(self):
+        return self.Name
         
 
 class Banner(models.Model):
@@ -24,8 +24,8 @@ class Banner(models.Model):
 
     class Meta:
         verbose_name_plural=("Banner")
-        def __str__(self):
-            return self.Name
+    def __str__(self):
+        return self.Name
 
 class Category (models.Model):
     name=models.CharField(max_length=50, null=False)
@@ -35,8 +35,8 @@ class Category (models.Model):
 
     class Meta:
         verbose_name_plural=("Category")
-        def __str__(self):
-            return self.name
+    def __str__(self):
+        return self.name
         
 
 class Brand(models.Model):
@@ -48,8 +48,8 @@ class Brand(models.Model):
     
     class Meta:
         verbose_name_plural=("Brand")
-        def __str__(self):
-            return self.name
+    def __str__(self):
+        return self.name
         
 class Product(models.Model):
     name=models.CharField(max_length=400)
@@ -64,8 +64,8 @@ class Product(models.Model):
 
     class Meta:
         verbose_name_plural=("Products")
-        def __str__(self):
-            return self.name
+    def __str__(self):
+        return self.name
         
 
 

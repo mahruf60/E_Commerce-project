@@ -7,5 +7,5 @@ urlpatterns =[
 
     path('contact/',contact,name="contact"),
 
-    path('product/',product,name="product"),
+    path('product_de/<int:pk>/',product_detail,name="product_detail"),
 ]

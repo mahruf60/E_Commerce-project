@@ -4,7 +4,7 @@ from main_app.models import *
 # Create your views here.
 def index(request):
     banner= Banner.objects.all()
-    product=Product.objects.all()
+    product=Product.objects.all().order_by ('?')
     
     context={
         'banner':banner,
@@ -24,5 +24,12 @@ def contact(request):
     return render(request,'contact.html',{'form':Contactfrom})
 
 
-def product(request):
-    return render(request,'product.html')
+def product_detail(request,pk):
+    product=Product.objects.get(pk=pk)
+    related_products=Product.objects.filter(category=product.category).exclude(id=product.pk)
+    
+    context = {
+        'product':product,
+        'related_products':related_products,
+    }
+    return render(request,'product_detail.html',context)
