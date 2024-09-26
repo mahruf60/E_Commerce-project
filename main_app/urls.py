@@ -8,4 +8,12 @@ urlpatterns =[
     path('contact/',contact,name="contact"),
 
     path('product_de/<int:pk>/',product_detail,name="product_detail"),
+    
+    path('add_to_cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
+    path('increment/<int:item_id>/', increment_cart_item, name='increment_cart_item'),
+    path('decrement/<int:item_id>/', decrement_cart_item, name='decrement_cart_item'),
+    
+    path('add_to_wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
+    path('cart/', cart, name='cart'),
+    path('wishlist/', wishlist, name='wishlist')
 ]
