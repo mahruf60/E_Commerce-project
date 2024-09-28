@@ -75,8 +75,62 @@ def add_to_wishlist(request, product_id):
     Wishlist.objects.get_or_create(user=request.user, product=product)
     return redirect('wishlist')
 
-    
 @login_required
 def wishlist(request):
     wishlist_items=Wishlist.objects.filter(user=request.user)
     return render(request, 'wishlist.html', {'wishlist_items': wishlist_items})
+
+
+
+@login_required
+def checkout(request):
+    if request.method == 'POST':
+        cart_items = Cart.objects.filter(user=request.user)
+        total_price = sum(item.product.regular_price * item.quantity for item in cart_items)
+
+        # Handle shipping address
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        delivery_area = request.POST.get('delivery_area')
+
+        # Add delivery charge
+        if delivery_area == 'inside_dhaka':
+            delivery_charge = 60
+        else:
+            delivery_charge = 120
+
+        # Add the delivery charge to the total price
+        total_price += delivery_charge
+
+        # Create order and order items
+        order = Order.objects.create(user=request.user, total_price=total_price)
+        for cart_item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=cart_item.product,
+                quantity=cart_item.quantity,
+                price=cart_item.product.regular_price
+            )
+
+        # Clear the cart
+        cart_items.delete()
+
+        return redirect('payment', order_id=order.id)
+
+    # Calculate total price for GET requests
+    cart_items = Cart.objects.filter(user=request.user)
+    total_price = sum(item.product.regular_price * item.quantity for item in cart_items)
+
+    # Prepare context for the template
+    delivery_area_charge = {
+        'inside_dhaka': 60,
+        'outside_dhaka': 120
+    }
+
+    context = {
+        'total_price': total_price,
+        'delivery_area_charge': delivery_area_charge,
+    }
+
+    return render(request, 'checkout.html', context)
