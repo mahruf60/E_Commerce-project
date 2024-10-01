@@ -17,4 +17,7 @@ urlpatterns =[
     path('cart/', cart, name='cart'),
     path('wishlist/', wishlist, name='wishlist'),
     path('checkout/',checkout,name='checkout'),
+    path('payment/<int:order_id>/',payment,name='payment'),
+    path('order_confirmation/<int:order_id>/',order_confirmation,name='order_confirmation'),
+    path('order_history/',order_history,name='order_history'),
 ]

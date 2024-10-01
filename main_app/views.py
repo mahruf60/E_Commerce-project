@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from main_app.form import Contactfrom
 from main_app.models import *
 from django.contrib.auth.decorators import login_required
+import uuid
 # Create your views here.
 def index(request):
     banner= Banner.objects.all()
@@ -132,5 +133,32 @@ def checkout(request):
         'total_price': total_price,
         'delivery_area_charge': delivery_area_charge,
     }
-
     return render(request, 'checkout.html', context)
+
+
+@login_required
+def payment(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    if request.method == 'POST':
+        transaction_id=str(uuid.uuid4())
+        payment=Payment.objects.create(
+            order=order,
+            amount=order.total_price,
+            payment_method=request.POST.get('payment_method'),
+            transaction_id=transaction_id,
+            status='completed',
+        )
+        order.status='processing'
+        order.save()
+        return redirect('order_confirmation',order_id=order.id)
+    return render(request, 'payment.html', {'order': order})
+
+@login_required
+def order_confirmation(request, order_id):
+    order=get_object_or_404(Order,id=order_id, user=request.user)
+    return render(request, 'order_confirmation.html', {'order':order})
+
+@login_required
+def order_history(request):
+    orders=Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'order_history.html',{'orders':orders})
