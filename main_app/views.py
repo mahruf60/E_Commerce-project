@@ -64,7 +64,7 @@ def decrement_cart_item(request, item_id):
         cart_item.delete()   #Remove item if quantity is 1 and decrement is pressed
     return redirect('cart')
 
-@login_required
+@login_required(login_url='login_page')
 def cart(request):
     cart_items=Cart.objects.filter(user=request.user)
     total=sum(item.product.regular_price * item.quantity for item in cart_items)
@@ -76,7 +76,7 @@ def add_to_wishlist(request, product_id):
     Wishlist.objects.get_or_create(user=request.user, product=product)
     return redirect('wishlist')
 
-@login_required
+@login_required(login_url='login_page')
 def wishlist(request):
     wishlist_items=Wishlist.objects.filter(user=request.user)
     return render(request, 'wishlist.html', {'wishlist_items': wishlist_items})

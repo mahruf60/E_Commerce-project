@@ -8,14 +8,20 @@ def g_category(request):
     return context
 
 def g_cart(request):
-    cart=Cart.objects.count()
+    if request.user.is_authenticated:
+        cart=Cart.objects.filter(user=request.user).count()
+    else:
+        cart=0
     context={
         'cart':cart       
     }
     return context
 
 def g_wishlist(request):
-    wishlist=Wishlist.objects.count()
+    if request.user.is_authenticated:
+        wishlist=Wishlist.objects.filter(user=request.user).count()
+    else:
+        wishlist=0
     context={
         'wishlist':wishlist
     }
