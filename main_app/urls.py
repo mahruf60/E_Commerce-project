@@ -14,6 +14,7 @@ urlpatterns =[
     path('decrement/<int:item_id>/', decrement_cart_item, name='decrement_cart_item'),
     
     path('add_to_wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
+    path('remove_from_wishlist/<int:product_id>/',remove_from_wishlist, name='remove_from_wishlist'),
     path('cart/', cart, name='cart'),
     path('wishlist/', wishlist, name='wishlist'),
     path('checkout/',checkout,name='checkout'),
